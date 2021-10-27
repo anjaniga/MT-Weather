@@ -11,17 +11,12 @@ import {
   ScrollView,
   StyleSheet,
 } from 'react-native';
+import { getFiveDaysData, getTodaysData } from '../../config';
+import { images } from '../../constant';
 const { height, width } = Dimensions.get('window');
 
 interface Props {
-}
-
-const images = {
-  cloud: require('../../assets/image/cloud.jpg'),
-  cloudrain: require('../../assets/image/cloudrain.jpg'),
-  sunrise: require('../../assets/image/sunrise.jpg'),
-  ice: require('../../assets/image/ice.jpg'),
-}
+} 
 
 const Wheather = ({}: Props) => {
   const [isLoading, setLoading] = useState<boolean>(true)
@@ -29,39 +24,24 @@ const Wheather = ({}: Props) => {
   const [data, setData] = useState<[]>([]);
   const [today, setToday] = useState<[]>([]);
 
-  const getTodaysData = async function (val: number) {
-    try {
-      const response = await fetch(
-        `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=3a18e434347fa185902c7904718169c3`,
-      );
-      const json = await response.json();
-      setToday(json);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  const getFiveDaysData = async function (val: number) {
-    getTodaysData(1);
-    try {
-      const response = await fetch(
-        `http://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=3a18e434347fa185902c7904718169c3`,
-      );
-      const json = await response.json();
-      setData(json);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    getTodaysData(1);
-    getFiveDaysData(1);
+       getData();
   }, []);
+
+  const getData = () => {
+    getTodaysData(city).then((res) => {
+      if(res){
+         setLoading(false)
+       setToday(res)
+      }
+    });
+    getFiveDaysData(city).then((res) => {
+      if(res){
+         setLoading(false)
+         setData(res)
+     }
+     });
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -72,7 +52,7 @@ const Wheather = ({}: Props) => {
           style={styles.inputSearch}
           onChangeText={val => setCity(val)}
         />
-        <TouchableOpacity onPress={() => getFiveDaysData(1)} style={styles.btnGo}>
+        <TouchableOpacity onPress={() => getData()} style={styles.btnGo}>
           <Text style={styles.textGo}>Go</Text>
         </TouchableOpacity>
       </View>
@@ -90,7 +70,7 @@ const Wheather = ({}: Props) => {
                   />
                 ) : null}
     
-                {today?.weather[0].main == 'Fog' ? (
+                {today?.weather[0].main == 'Fog' || today?.weather[0].main == 'Smoke' ? (
                   <Image
                     source={images.ice}
                     style={styles.imgTodayDetails}
@@ -132,7 +112,7 @@ const Wheather = ({}: Props) => {
                             />
                           ) : null}
     
-                          {item.weather[0].main == 'Fog' ? (
+                          {item.weather[0].main == 'Fog' || item.weather[0].main == 'Smoke' ? (
                             <Image
                               source={images.ice}
                               style={styles.imgMoreDays}
@@ -165,7 +145,7 @@ const Wheather = ({}: Props) => {
                               <Text>Best day to sell: Umbrella</Text>
                             ) : null}
     
-                            {item.weather[0].main == 'Fog' ? (
+                            {item.weather[0].main == 'Fog' || item.weather[0].main == 'Smoke' ? (
                               <Text>Best day to sell: Jacket</Text>
                             ) : null}
     
