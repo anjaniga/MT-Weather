@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1067771594098",
+    "project_id": "mt-weather-790fe",
+    "storage_bucket": "mt-weather-790fe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1067771594098:android:7dea80de0df02e3e9dc9eb",
+        "android_client_info": {
+          "package_name": "com.weathermt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1067771594098-te9me56rpane4u2gk2eormi2h5pbk7nn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBf8w9A_wN-fUJkm2vbzyi5GoAODySUK2Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1067771594098-te9me56rpane4u2gk2eormi2h5pbk7nn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
